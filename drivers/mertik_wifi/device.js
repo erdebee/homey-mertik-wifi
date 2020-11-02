@@ -87,17 +87,9 @@ class MertikWifi extends Homey.Device {
   refreshStatus() {}
   
   powerOn() {
-    return this.sendCommand('')    
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}});
   }
 
   powerOff() {
-    return this.sendCommand('power/off')
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}});
   }
   
   auxOn() {    

@@ -3,10 +3,10 @@
 Adds support for Mertik MyFire connected fireplace's. 
 This controller is also rebranded/whitelabeled by many producers of 
 fireplaces, such as:
--`Barbas Bellfire`
--`Dru`
--`Kalfire`
--`Thermocet`
+- `Barbas Bellfire`
+- `Dru`
+- `Kalfire`
+- `Thermocet`
 
 To use this application, download these sourcefiles, install homey SDK and type 
 
@@ -17,7 +17,7 @@ in your console / terminal.
 ---
 ### Use at your own responsibility
 
-!!It is a very stupid idea to automate your fireplace.!!
+**!!It is a very stupid idea to automate your fireplace.!!**
 Any bug in your homey or bug inside this app could potentially burn your house down.
 I strongly recommend you do not use this application for anything other then educational purposes.
 
