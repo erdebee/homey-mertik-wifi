@@ -87,44 +87,18 @@ class MertikWifi extends Homey.Device {
   refreshStatus() {}
   
   powerOn() {
-    return this.sendCommand('')    
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}});
   }
 
   powerOff() {
-    return this.sendCommand('power/off')
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}});
   }
   
   auxOn() {
-  	let device = this;  
-    return this.sendCommand('set/feature/rotation',true,{"value": 0 })
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}else{
-    		this.getDriver().triggerFlapRotateToggle.trigger(device, {}, {});
-    		this.getDriver().triggerFlapRotateOn.trigger(device, {}, {});
-    	}
-	});
   }
 
   auxOff() {
-  	let device = this;  
-    return this.sendCommand('set/feature/rotation',true,{"value": 7 })
-    	.then(res => { if (!res) {
-			throw new Error('unsuccessful');
-    	}else{
-    		this.getDriver().triggerFlapRotateToggle.trigger(device, {}, {});
-    		this.getDriver().triggerFlapRotateOff.trigger(device, {}, {});
-    	}});
   }
   
   setLightDim(dim_level) {
-  	let device = this;
     var msg = "";
     var l = 36 + Math.round(9 * dim_level);
     if (l >= 40) l++; // For some reason 40 should be skipped?...
@@ -135,7 +109,6 @@ class MertikWifi extends Homey.Device {
   }
 
   setFlameHeight(flame_height) {
-  	let device = this;
     var msg = "";
     var l = 36 + Math.round(9 * dim_level);
     if (l >= 40) l++; // For some reason 40 should be skipped?...
