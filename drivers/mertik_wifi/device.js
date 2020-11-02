@@ -100,32 +100,17 @@ class MertikWifi extends Homey.Device {
     	}});
   }
   
-  auxOn() {
-  	let device = this;  
-    return this.sendCommand('set/feature/rotation',true,{"value": 0 })
-    	.then(res => {if (!res) {
-			throw new Error('unsuccessful');
-    	}else{
-    		this.getDriver().triggerFlapRotateToggle.trigger(device, {}, {});
-    		this.getDriver().triggerFlapRotateOn.trigger(device, {}, {});
-    	}
-	});
+  auxOn() {    
+    var msg = "2303031030a"
+    return this.sendCommand(msg);
   }
 
   auxOff() {
-  	let device = this;  
-    return this.sendCommand('set/feature/rotation',true,{"value": 7 })
-    	.then(res => { if (!res) {
-			throw new Error('unsuccessful');
-    	}else{
-    		this.getDriver().triggerFlapRotateToggle.trigger(device, {}, {});
-    		this.getDriver().triggerFlapRotateOff.trigger(device, {}, {});
-    	}});
+    var msg = "2303030030a"    
+    return this.sendCommand(msg);
   }
   
   setLightDim(dim_level) {
-  	let device = this;
-    var msg = "";
     var l = 36 + Math.round(9 * dim_level);
     if (l >= 40) l++; // For some reason 40 should be skipped?...
     
@@ -135,12 +120,9 @@ class MertikWifi extends Homey.Device {
   }
 
   setFlameHeight(flame_height) {
-  	let device = this;
-    var msg = "";
-    var l = 36 + Math.round(9 * dim_level);
-    if (l >= 40) l++; // For some reason 40 should be skipped?...
+    var l = 3830 + Math.round(816 * flame_height);
     
-    var msg = "3304645" + l + l + "030a"
+    var msg = "136" + l + "03"
     
     return this.sendCommand(msg);
   }

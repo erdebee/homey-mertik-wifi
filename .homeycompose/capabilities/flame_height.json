@@ -1,9 +1,14 @@
 {
-      "type": "boolean",
+      "type": "number",
       "title": {
         "nl": "Vlam hoogte",
         "en": "Flame height"        
       },
+  	  "chartType": "stepLine",
+	  "min": 0,
+	  "max": 1,
+	  "decimals": 2,
+	  "units": "%",
       "getable": true,
       "setable": true,
       "uiComponent": "slider"
