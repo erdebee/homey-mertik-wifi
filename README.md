@@ -17,7 +17,7 @@ in your console / terminal.
 ---
 ### Use at your own responsibility
 
-!!It is a very stupid idea to automate your fireplace.!!
+**!!It is a very stupid idea to automate your fireplace.!!**
 Any bug in your homey or bug inside this app could potentially burn your house down.
 I strongly recommend you do not use this application for anything other then educational purposes.
 
