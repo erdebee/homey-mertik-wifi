@@ -3,10 +3,10 @@
 Adds support for Mertik MyFire connected fireplace's. 
 This controller is also rebranded/whitelabeled by many producers of 
 fireplaces, such as:
--`Barbas Bellfire`
--`Dru`
--`Kalfire`
--`Thermocet`
+- `Barbas Bellfire`
+- `Dru`
+- `Kalfire`
+- `Thermocet`
 
 To use this application, download these sourcefiles, install homey SDK and type 
 
