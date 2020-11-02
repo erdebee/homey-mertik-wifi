@@ -1,0 +1,13 @@
+{
+	  "title":{
+		 "en":"Dual flame was toggled",
+		 "nl":"Tweede vlam is veranderd"
+	  },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ]
+}

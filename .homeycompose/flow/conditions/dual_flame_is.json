@@ -1,0 +1,13 @@
+{
+	  "title":{
+		 "en":"Dual flame is !{{on|off}}",
+		 "nl":"Tweede vlam staat !{{uit|aan}}"
+	  },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ]
+}

@@ -1,0 +1,10 @@
+{
+      "type": "boolean",
+      "title": {
+        "nl": "Vlam hoogte",
+        "en": "Flame height"        
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "slider"
+}

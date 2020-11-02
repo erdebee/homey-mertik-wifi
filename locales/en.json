@@ -1,0 +1,11 @@
+{
+    "pair": {
+        "start": {
+            "deviceName": "Device name",
+            "error": "An error has occurred.",
+            "intro": "Search devices<br/><br/>Make sure that homey is connected to the same WiFi network as an already operational Mertik MyFire WiFi controller.</br><br/>When you are ready, press start to begin searching.<br/>This might take up to 30 seconds..",
+            "startSearching": "Start searching",
+            "title": "Connect device..."
+        }
+    }
+}

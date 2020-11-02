@@ -1,0 +1,10 @@
+{
+      "type": "boolean",
+      "title": {
+        "nl": "Tweede vlam",
+        "en": "Second flame"        
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle"
+}

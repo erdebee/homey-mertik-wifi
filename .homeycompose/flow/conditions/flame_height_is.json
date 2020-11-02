@@ -1,0 +1,23 @@
+{
+	"title":{
+		"en":"Flame height is",
+		"nl":"Vlam hoogte is"
+	},
+	"args": [
+	{
+		"name": "my_device",
+		"type": "device",
+		"filter": "driver_id=mertik_wifi"
+    },
+	{
+		"type": "number",
+		"name": "flame_height",
+		"min": 0,
+		"max": 12,
+		"step": 1,
+		"placeholder": {
+			"en": "Set a value (0=standby)",
+			"en": "Voer waarde in (0=standby)"			  
+		}
+	}] 
+}

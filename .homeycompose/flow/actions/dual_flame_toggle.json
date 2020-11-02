@@ -1,0 +1,13 @@
+{
+	  "title":{
+		 "en":"Toggle second flame",
+		 "nl":"Schakel tweede vlam"
+	  },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ]
+}

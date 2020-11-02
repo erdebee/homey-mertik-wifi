@@ -1,0 +1,35 @@
+{
+    "capabilities": [
+        "measure_temperature",
+        "onoff",
+        "dim",
+        "dual_flame",
+        "flame_height"             
+    ],
+    "class": "thermostat",
+    "id": "mertik_wifi",
+    "images": {
+        "large": "/drivers/mertik_wifi/assets/images/large.png",
+        "small": "/drivers/mertik_wifi/assets/images/small.png"
+    },
+    "name": {
+        "en": "Mertik Wifi box",
+        "nl": "Mertik Wifi box" 
+    },
+    "pair": [
+        {
+            "id": "search_device"
+        },
+        {
+            "id": "list_devices",
+            "navigation": {
+                "next": "add_devices"
+            },
+            "template": "list_devices"
+        },
+        {
+            "id": "add_devices",
+            "template": "add_devices"
+        }
+    ]
+}

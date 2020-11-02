@@ -1,0 +1,44 @@
+<script>
+
+    Homey.setTitle(__('pair.start.title'));
+
+    Homey.on('error', function (errortype, callback) {
+        if (errortype == 'error') {
+            Homey.alert(__('pair.start.error'), 'error');
+            Homey.done();
+        };
+        if (errortype == 'nosettings') {
+            Homey.alert(__('pair.start.nosettings'), 'error');
+            Homey.done();
+        }
+    })
+
+    Homey.on('found', function (success, callback) {
+        Homey.hideLoadingOverlay();
+        Homey.showView('list_devices');
+    });
+    
+    Homey.on('not_found', function (success, callback) {
+        Homey.hideLoadingOverlay();    
+	  	Homey.alert(__('pair.start.not_found'), 'error');
+    });
+
+
+    function startSearch() {
+      console.log("StartSearch triggered");
+      // Continue to back-end, pass along data
+      Homey.emit('get_devices', {});
+      Homey.showLoadingOverlay();
+    }
+</script>
+
+<p data-i18n="pair.start.intro">Search devices<br/><br/>
+Make sure that homey is connected to the same WiFi network as an already operational Mertik MyFire WiFi controller.</br>
+<br/>
+When you are ready, press start to begin searching.<br/>
+This might take up to 30 seconds..
+</p>
+
+<fieldset>
+    <button class="button" data-i18n="pair.start.startSearching" onclick="startSearch()">Start searching</button>
+</fieldset>

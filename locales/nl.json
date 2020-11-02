@@ -1,0 +1,11 @@
+{
+    "pair": {
+        "start": {
+            "deviceName": "Device name",
+            "error": "An error has occurred.",
+            "intro": "Zoek naar apparaten.<br/><br/>Zorg ervoor dat je Homey verbonden is aan hetzelfde WiFi netwerk als een reeds geconfigureerde Mertik Wifi MyFire controller.</br><br/>Druk op start om te beginnen.<br/>Zoeken duurt tot 30 seconden...",
+            "startSearching": "Start zoeken",
+            "title": "Apparaat koppelen..."
+        }
+    }
+}

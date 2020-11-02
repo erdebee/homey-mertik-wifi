@@ -1,0 +1,11 @@
+{
+  "name": "nl.pulsive.mertik-wifi",
+  "version": "1.0.0",
+  "main": "app.js",
+  "devDependencies": {
+    "homey": "^2.7.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}

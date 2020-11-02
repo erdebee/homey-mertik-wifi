@@ -1,0 +1,262 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "nl.pulsive.mertik-wifi",
+  "version": "1.0.0",
+  "compatibility": ">=1.5.0",
+  "sdk": 2,
+  "name": {
+    "en": "Mertik Wifi "
+  },
+  "description": {
+    "en": "Adds support for Mertik Wifi controlled fireplaces."
+  },
+  "category": [
+    "climate"
+  ],
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Roy Brondgeest",
+    "email": "roy.brondgeest@pulsive.nl"
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Dual flame turned off",
+          "nl": "Tweede vlam is uitgezet"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_off"
+      },
+      {
+        "title": {
+          "en": "Dual flame turned on",
+          "nl": "Tweede vlam is aangezet"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_on"
+      },
+      {
+        "title": {
+          "en": "Dual flame was toggled",
+          "nl": "Tweede vlam is veranderd"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_toggled"
+      },
+      {
+        "title": {
+          "en": "Flame height has changed to",
+          "nl": "Vlam hoogte is veranderd naar"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "type": "number",
+            "name": "flame_height",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "placeholder": {
+              "en": "Voer waarde in (0=standby)"
+            }
+          }
+        ],
+        "id": "flame_height_changed"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "Dual flame is !{{on|off}}",
+          "nl": "Tweede vlam staat !{{uit|aan}}"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_is"
+      },
+      {
+        "title": {
+          "en": "Flame height is",
+          "nl": "Vlam hoogte is"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "type": "number",
+            "name": "flame_height",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "placeholder": {
+              "en": "Voer waarde in (0=standby)"
+            }
+          }
+        ],
+        "id": "flame_height_is"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Turn second flame off",
+          "nl": "Zet tweede vlam uit"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_off"
+      },
+      {
+        "title": {
+          "en": "Turn second flame on",
+          "nl": "Zet tweede vlam aan"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_on"
+      },
+      {
+        "title": {
+          "en": "Toggle second flame",
+          "nl": "Schakel tweede vlam"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ],
+        "id": "dual_flame_toggle"
+      },
+      {
+        "title": {
+          "en": "Set flame height",
+          "nl": "Stel vlam hoogte in"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "type": "number",
+            "name": "flame_height",
+            "min": 0,
+            "max": 12,
+            "step": 1,
+            "placeholder": {
+              "en": "Voer waarde in (0=standby)"
+            }
+          }
+        ],
+        "id": "flame_height_set"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "capabilities": [
+        "measure_temperature",
+        "onoff",
+        "dim",
+        "dual_flame",
+        "flame_height"
+      ],
+      "class": "thermostat",
+      "id": "mertik_wifi",
+      "images": {
+        "large": "/drivers/mertik_wifi/assets/images/large.png",
+        "small": "/drivers/mertik_wifi/assets/images/small.png"
+      },
+      "name": {
+        "en": "Mertik Wifi box",
+        "nl": "Mertik Wifi box"
+      },
+      "pair": [
+        {
+          "id": "search_device"
+        },
+        {
+          "id": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          },
+          "template": "list_devices"
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "dual_flame": {
+      "type": "boolean",
+      "title": {
+        "nl": "Tweede vlam",
+        "en": "Second flame"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle"
+    },
+    "flame_height": {
+      "type": "boolean",
+      "title": {
+        "nl": "Vlam hoogte",
+        "en": "Flame height"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "slider"
+    }
+  }
+}

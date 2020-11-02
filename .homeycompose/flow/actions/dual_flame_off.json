@@ -1,0 +1,13 @@
+{
+	  "title":{
+		 "en":"Turn second flame off",
+		 "nl":"Zet tweede vlam uit"
+	  },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ]
+}

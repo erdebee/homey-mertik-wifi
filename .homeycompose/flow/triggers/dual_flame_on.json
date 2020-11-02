@@ -1,0 +1,13 @@
+{
+	  "title":{
+		 "en":"Dual flame turned on",
+		 "nl":"Tweede vlam is aangezet"
+	  },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          }
+        ]
+}
