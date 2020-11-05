@@ -87,18 +87,24 @@ class MertikWifi extends Homey.Device {
   refreshStatus() {}
   
   powerOn() {
+    return this.setFlameHeight(1.0);
   }
 
   powerOff() {
+    var msg = "136303003"
+    
+    return this.sendCommand(msg);
   }
   
   auxOn() {    
-    var msg = "2303031030a"
+    var msg = "2303031030a";
+    
     return this.sendCommand(msg);
   }
 
   auxOff() {
-    var msg = "2303030030a"    
+    var msg = "2303030030a";
+    
     return this.sendCommand(msg);
   }
   
@@ -114,11 +120,13 @@ class MertikWifi extends Homey.Device {
   setFlameHeight(flame_height) {
     var l = 3830 + Math.round(816 * flame_height);
     
-    var msg = "136" + l + "03"
+    var msg = "136" + l + "03";
+    
+	this.setCapabilityValue("onoff", true);
     
     return this.sendCommand(msg);
   }
- 
+  
 
   sendCommand(msg) {
     var packet = Buffer.from(prefix + msg, 'hex');
