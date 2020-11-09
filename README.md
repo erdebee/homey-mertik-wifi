@@ -8,9 +8,10 @@ fireplaces, such as:
 - `Kalfire`
 - `Thermocet`
 
-To use this application, download these sourcefiles, install homey SDK and type 
+To use this application, download these sourcefiles, install homey SDK and NodeJS then type the following commands;
 
-`homey app install` 
+- `npm install`
+- `homey app install` 
 
 in your console / terminal.
 
