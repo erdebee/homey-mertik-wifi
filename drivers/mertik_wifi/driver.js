@@ -6,8 +6,6 @@ const dgram = require('dgram');
 
 const Homey = require('homey');
 
-const fetch = require('node-fetch');
-
 const reqSync = Buffer.from('000100f6','hex');
 
 

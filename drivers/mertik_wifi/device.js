@@ -108,6 +108,18 @@ class MertikWifi extends Homey.Device {
     return this.sendCommand(msg);
   }
   
+  igniteFireplace() {    
+    var msg = "14103";
+    
+    return this.sendCommand(msg);
+  }
+  
+  guardFlameOff() {    
+    var msg = "13003";
+    
+    return this.sendCommand(msg);
+  }
+  
   setLightDim(dim_level) {
     var l = 36 + Math.round(9 * dim_level);
     if (l >= 40) l++; // For some reason 40 should be skipped?...
@@ -118,7 +130,22 @@ class MertikWifi extends Homey.Device {
   }
 
   setFlameHeight(flame_height) {
-    var l = 3830 + Math.round(816 * flame_height);
+    
+    var steps = [
+      "3830",
+      "3842",
+      "3937",
+      "4132",
+      "4145",
+      "4239",
+      "4335",
+      "4430",
+      "4443",
+      "4537",
+      "4633",
+      "4646"
+    ];
+    var l = steps[flame_height];
     
     var msg = "136" + l + "03";
     
