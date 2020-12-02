@@ -1,12 +1,17 @@
 'use strict';
 
 const Homey = require('homey');
-
-const fetch = require('node-fetch');
-
 const net = require('net');
 
 const prefix = '02333033303330333038303'
+
+function hex2bin(hex){
+    return (parseInt(hex, 16).toString(2)).padStart(8, '0');
+}
+
+function fromBitStatus(hex,index) {
+  return hex2bin(hex).substr(index, 1) === "1";
+}
 
 class MertikWifi extends Homey.Device {
 
@@ -17,7 +22,7 @@ class MertikWifi extends Homey.Device {
     this.log('Mertik Wifi device has been initialized');
     this.refreshStatus();
     
-    setInterval((e) => e.refreshStatus(), 15000, this)
+    setInterval((e) => e.refreshStatus(), 15000, this);
     this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
     this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
     this.registerCapabilityListener('flame_height', this.onCapabilityFlameHeight.bind(this));
@@ -26,9 +31,9 @@ class MertikWifi extends Homey.Device {
 
   async onCapabilityOnoff( value, opts ) {
     if (value) {
-      await this.powerOn();
+      await this.setFlameHeight(11);
     }else{
-      await this.powerOff();    
+      await this.standBy();    
     }
   }
   
@@ -84,13 +89,13 @@ class MertikWifi extends Homey.Device {
     this.log('Mertik Wifi has been deleted');
   }
   
-  refreshStatus() {}
-  
-  powerOn() {
-    return this.setFlameHeight(1.0);
+  refreshStatus() {
+  	var msg = "03303";
+  	
+  	return this.sendCommand(msg);
   }
 
-  powerOff() {
+  standBy() {
     var msg = "136303003"
     
     return this.sendCommand(msg);
@@ -154,8 +159,47 @@ class MertikWifi extends Homey.Device {
     return this.sendCommand(msg);
   }
   
+  processStatus(statusStr) {
+	var on = true;
+  	var flameHeight = (parseInt("0x" + statusStr.substr(14,2)));
+  	
+  	if (flameHeight < 128) {
+  		flameHeight = 0;
+  		on = false;
+  	}else{
+	  	flameHeight = Math.round(((flameHeight - 128) / 128) * 11)
+  	}
+  	
+  	let statusBits = statusStr.substr(16,4);
+  	let guardFlameOn = fromBitStatus(statusBits, 8);
+  	let auxOn = fromBitStatus(statusBits, 12);
+  	let lightOn = fromBitStatus(statusBits, 13);  	  	
+  	
+  	var dimLevel = statusStr.substr(20,2);
+  		console.log("Dim level hex: " + dimLevel);
+  	dimLevel = ((parseInt("0x" + dimLevel) - 100) / 151);
+  	if (dimLevel < 0 || !lightOn) dimLevel = 0;
+  	
+  	let ambientTemp = parseInt("0x" + statusStr.substr(30,2)) / 10;
+
+  	console.log("Status update!!");   	
+  	console.log("Fireplace on: " + on);  	
+  	console.log("Flame height: " + flameHeight);  	
+	console.log("Guard flame on: " + guardFlameOn);
+	console.log("Aux on: " + auxOn);
+	console.log("Light on: " + lightOn);    
+	console.log("Dim level: " + dimLevel);    
+	console.log("Ambient temp: " + ambientTemp);    
+	
+	this.setCapabilityValue("onoff", on);
+	this.setCapabilityValue("flame_height", flameHeight);
+	this.setCapabilityValue("dual_flame", auxOn);
+	this.setCapabilityValue("dim", dimLevel);
+	this.setCapabilityValue("measure_temperature", ambientTemp);
+  }
 
   sendCommand(msg) {
+    let thiz = this;
     var packet = Buffer.from(prefix + msg, 'hex');
     console.log("Sending data: " + prefix + msg);
     var ip = this.getData().id;
@@ -166,10 +210,12 @@ class MertikWifi extends Homey.Device {
 		this.client.connect(2000, ip);
 		 // add handler for any response or other data coming from the device
 		this.client.on('data', function(data) {
-			let tempData = data.toString().replace(/\r/g, ";");
+			let tempData = data.toString().substr(1).replace(/\r/g, ";");
 
 			console.log("Got data: " + tempData);
-		
+			if (tempData.startsWith("03030000000346")) {
+				thiz.processStatus(tempData);
+			}
 		});
 		this.client.on('error', function(err) {
 			console.log("IP socket error: " + err.message);
