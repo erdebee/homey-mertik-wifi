@@ -51,87 +51,54 @@ class MertikWifiDriver extends Homey.Driver {
     //-----------------------------------------------
     //-------------- ACTIONS ------------------------
     
-	// new Homey.FlowCardAction('fan_speed_set').register().registerRunListener((args, state) => {
-// 		return args.my_device.setFanSpeed(args.fan_speed);
-//   	});   
-//   	
-// 	new Homey.FlowCardAction('thermostat_mode_set').register().registerRunListener((args, state) => {
-// 		return args.my_device.setInnovaMode(args.thermostat_mode);
-//   	});     	     
-// 
-// 	new Homey.FlowCardAction('night_mode_on').register().registerRunListener((args, state) => {
-// 		return args.my_device.nightModeOn();
-//   	});
-//   	
-//   	new Homey.FlowCardAction('night_mode_off').register().registerRunListener((args, state) => {
-// 		return args.my_device.nightModeOff();
-//   	});
-// 
-// 	new Homey.FlowCardAction('night_mode_toggle').register().registerRunListener((args, state) => {
-// 		if (args.my_device.getCapabilityValue('night_mode'))
-// 		  return args.my_device.nightModeOff();
-// 		else  
-// 		  return args.my_device.nightModeOn();		
-//   	});
-//   	
-//   	new Homey.FlowCardAction('flap_rotate_on').register().registerRunListener((args, state) => {
-// 		return args.my_device.flapRotateOn();
-//   	});
-//   	
-//   	new Homey.FlowCardAction('flap_rotate_off').register().registerRunListener((args, state) => {
-// 		return args.my_device.flapRotateOff();
-//   	});
-//   	
-//   	new Homey.FlowCardAction('flap_rotate_toggle').register().registerRunListener((args, state) => {
-// 		if (args.my_device.getCapabilityValue('flap_rotate'))
-// 		  return args.my_device.flapRotateOff();
-// 		else  
-// 		  return args.my_device.flapRotateOn();		
-//   	});
-//   	
+	new Homey.FlowCardAction('operation_mode_set').register().registerRunListener((args, state) => {
+		return args.my_device.setOperationMode(args.operation_mode);
+  	});  
+  	
+  	new Homey.FlowCardAction('flame_height_set').register().registerRunListener((args, state) => {
+		return args.my_device.setFlameHeight(args.flame_height);
+  	});   
+  	
+	new Homey.FlowCardAction('dual_flame_on').register().registerRunListener((args, state) => {
+		return args.my_device.auxOn();
+  	});
+  	
+  	new Homey.FlowCardAction('dual_flame_off').register().registerRunListener((args, state) => {
+		return args.my_device.auxOff();
+  	});
+
+	new Homey.FlowCardAction('dual_flame_toggle').register().registerRunListener((args, state) => {
+		if (args.my_device.getCapabilityValue('dual_flame'))
+		  return args.my_device.auxOff();
+		else  
+		  return args.my_device.auxOn();		
+  	});
+
     //-----------------------------------------------
     //-------------- TRIGGERS -----------------------
 
-    // this.triggerFlapRotateOn = 	 	new Homey.FlowCardTriggerDevice('flap_rotate_on').register();
-//     this.triggerFlapRotateOff = 	new Homey.FlowCardTriggerDevice('flap_rotate_off').register();
-//     this.triggerFlapRotateToggle = 	new Homey.FlowCardTriggerDevice('flap_rotate_toggled').register();        
-//     this.triggerNightModeOn = 	 	new Homey.FlowCardTriggerDevice('night_mode_on').register();
-//     this.triggerNightModeOff = 	 	new Homey.FlowCardTriggerDevice('night_mode_off').register();
-//     this.triggerNightModeToggle = 	new Homey.FlowCardTriggerDevice('night_mode_toggled').register();        
-// 	this.triggerFanSpeed = 		 	new Homey.FlowCardTriggerDevice('fan_speed_changed').register().registerRunListener((args, state) => {
-// 	  this.log(args);
-// 	  this.log(state);	  
-// 		if (args.my_device.getCapabilityValue('flap_rotate'))
-// 		  return args.my_device.flapRotateOff();
-// 		else  
-// 		  return args.my_device.flapRotateOn();		
-//   	});
-//   	
-//     this.triggerModeChanged = 		new Homey.FlowCardTriggerDevice('thermostat_mode_changed').register().registerRunListener((args, state) => {
-// 		if (args.my_device.getCapabilityValue('flap_rotate'))
-// 		  return args.my_device.flapRotateOff();
-// 		else  
-// 		  return args.my_device.flapRotateOn();		
-//   	});
+     this.triggerDualFlameOn = 	 	new Homey.FlowCardTriggerDevice('dual_flame_on').register();
+     this.triggerDualFlameOff = 	new Homey.FlowCardTriggerDevice('dual_flame_off').register();
+     this.triggerDualFlameToggle = 	new Homey.FlowCardTriggerDevice('dual_flame_toggled').register();        
+     this.triggerFlameHeightChanged = 	new Homey.FlowCardTriggerDevice('flame_height_changed').register();        
+     this.triggerOperationModeChanged = 	new Homey.FlowCardTriggerDevice('operation_mode_changed').register();        
+
 
   	
     //-------------------------------------------------
     //-------------- CONDITIONS -----------------------    
-  	// new Homey.FlowCardCondition('fan_speed_is').register().registerRunListener((args, state) => {
-// 	  return args.my_device.getCapabilityValue('fan_speed');
-//   	});
-//   	
-//   	new Homey.FlowCardCondition('flap_rotate_is').register().registerRunListener((args, state) => {
-// 	  return args.my_device.getCapabilityValue('flat_rotate');
-//   	});
-//   	
-//   	new Homey.FlowCardCondition('night_mode_is').register().registerRunListener((args, state) => {
-// 	  return args.my_device.getCapabilityValue('night_mode');
-//   	});
-//   	
-//   	new Homey.FlowCardCondition('thermostat_mode_is').register().registerRunListener((args, state) => {
-// 	  return args.my_device.getCapabilityValue('thermostat_mode');
-//   	});
+  	new Homey.FlowCardCondition('dual_flame_is').register().registerRunListener((args, state) => {
+	  return args.my_device.getCapabilityValue('dual_flame');
+  	});
+  	
+  	new Homey.FlowCardCondition('flame_height_is').register().registerRunListener((args, state) => {
+	  return args.my_device.getCapabilityValue('flame_height');
+  	});
+  	
+  	new Homey.FlowCardCondition('operation_mode_is').register().registerRunListener((args, state) => {
+	  return args.my_device.getCapabilityValue('operation_mode');
+  	});
+  	
   };
 
   

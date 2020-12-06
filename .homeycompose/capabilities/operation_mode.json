@@ -1,0 +1,37 @@
+{
+	 "type":"enum",
+	 "title":{
+		"en":"Operation mode",
+		"nl":"Haard modus"
+	 },
+	 "desc":{
+		"en":"Mode of the fireplace",
+		"nl":"Modus van de haard"
+	 },
+	 "values":[
+		{
+		   "id":"on",
+		   "title":{
+			  "en":"On",
+			  "nl":"Aan"
+		   }
+		},
+		{
+		   "id":"stand_by",
+		   "title":{
+			  "en":"Standby",
+			  "nl":"Standby"
+		   }
+		},
+		{   
+		   "id":"off",
+		   "title":{
+			  "en":"Off",
+			  "nl":"Uit"
+		   }
+		}
+	 ],
+	 "getable":true,
+	 "setable":true,
+	 "uiComponent":"picker"
+  }

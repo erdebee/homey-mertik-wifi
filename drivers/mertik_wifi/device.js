@@ -23,18 +23,14 @@ class MertikWifi extends Homey.Device {
     this.refreshStatus();
     
     setInterval((e) => e.refreshStatus(), 15000, this);
-    this.registerCapabilityListener('onoff', this.onCapabilityOnoff.bind(this));
+    this.registerCapabilityListener('operation_mode', this.onCapabilityOperationMode.bind(this));
     this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
     this.registerCapabilityListener('flame_height', this.onCapabilityFlameHeight.bind(this));
     this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
   }
 
-  async onCapabilityOnoff( value, opts ) {
-    if (value) {
-      await this.setFlameHeight(11);
-    }else{
-      await this.standBy();    
-    }
+  async onCapabilityOperationMode( value, opts ) {
+    await this.setOperationMode(value);
   }
   
   async onCapabilityDualFlame( value, opts ) {
@@ -94,6 +90,37 @@ class MertikWifi extends Homey.Device {
   	
   	return this.sendCommand(msg);
   }
+  
+  setOperationMode(value) {
+    let curState = this.getCapabilityValue('operation_mode');    
+   
+   //  this.getDriver()
+// 		.triggerOperationModeChanged
+// 		.trigger(this, {}, {
+// 			"operation_mode": operation_mode, 
+// 			"uid": device.getData().uid
+// 		})
+// 		.catch( this.error )
+// 		.then( this.log );
+   
+    if (value == "on" && curState == "stand_by") {
+      console.log("standby to on");
+      return this.setFlameHeight(11);
+    }else if (value == "on" && curState == "off") {
+      console.log("off to on");
+      return this.igniteFireplace();
+    }else if (value == "on") {
+      console.log("?? to on - doing nothing");    
+      return;        
+    }else if (value == "stand_by"){
+      console.log("to standby");        
+      return this.standBy();    
+    }else{
+      console.log("to off");            
+      return this.guardFlameOff();
+    }
+    
+  }
 
   standBy() {
     var msg = "136303003"
@@ -102,14 +129,16 @@ class MertikWifi extends Homey.Device {
   }
   
   auxOn() {    
+    this.getDriver().triggerDualFlameToggle.trigger(this, {}, {});
+	this.getDriver().triggerDualFlameOn.trigger(this, {}, {});
     var msg = "2303031030a";
-    
-    return this.sendCommand(msg);
+	return this.sendCommand(msg);
   }
 
   auxOff() {
+    this.getDriver().triggerDualFlameToggle.trigger(this, {}, {});
+	this.getDriver().triggerDualFlameOff.trigger(this, {}, {});
     var msg = "2303030030a";
-    
     return this.sendCommand(msg);
   }
   
@@ -154,8 +183,14 @@ class MertikWifi extends Homey.Device {
     
     var msg = "136" + l + "03";
     
-	this.setCapabilityValue("onoff", true);
-    
+	this.getDriver().triggerFlameHeightChanged
+		.trigger(this, {}, {
+			"flame_height": flame_height, 
+			"uid": this.getData().uid
+		})
+		.catch( this.error )
+		.then( this.log );
+	
     return this.sendCommand(msg);
   }
   
@@ -171,12 +206,13 @@ class MertikWifi extends Homey.Device {
   	}
   	
   	let statusBits = statusStr.substr(16,4);
+  	let shuttingDown = fromBitStatus(statusBits, 7);
   	let guardFlameOn = fromBitStatus(statusBits, 8);
+  	let igniting = fromBitStatus(statusBits, 11);
   	let auxOn = fromBitStatus(statusBits, 12);
   	let lightOn = fromBitStatus(statusBits, 13);  	  	
   	
   	var dimLevel = statusStr.substr(20,2);
-  		console.log("Dim level hex: " + dimLevel);
   	dimLevel = ((parseInt("0x" + dimLevel) - 100) / 151);
   	if (dimLevel < 0 || !lightOn) dimLevel = 0;
   	
@@ -186,12 +222,25 @@ class MertikWifi extends Homey.Device {
   	console.log("Fireplace on: " + on);  	
   	console.log("Flame height: " + flameHeight);  	
 	console.log("Guard flame on: " + guardFlameOn);
+	console.log("Igniting: " + igniting);
+	console.log("Shutting down: " + shuttingDown);	
 	console.log("Aux on: " + auxOn);
 	console.log("Light on: " + lightOn);    
 	console.log("Dim level: " + dimLevel);    
 	console.log("Ambient temp: " + ambientTemp);    
 	
-	this.setCapabilityValue("onoff", on);
+	
+	var opMode = "on";
+	
+	if (!on && !igniting) {
+	  if (guardFlameOn && !shuttingDown) {
+	    opMode = "stand_by";
+	  }else{
+	  	opMode = "off";
+	  }
+	}
+	console.log("Operation mode: " + opMode)
+	this.setCapabilityValue("operation_mode", opMode);
 	this.setCapabilityValue("flame_height", flameHeight);
 	this.setCapabilityValue("dual_flame", auxOn);
 	this.setCapabilityValue("dim", dimLevel);

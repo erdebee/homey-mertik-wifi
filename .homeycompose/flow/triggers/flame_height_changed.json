@@ -13,11 +13,11 @@
 		"type": "number",
 		"name": "flame_height",
 		"min": 0,
-		"max": 12,
+		"max": 11,
 		"step": 1,
 		"placeholder": {
-			"en": "Set a value (0=standby)",
-			"en": "Voer waarde in (0=standby)"			  
+			  "en": "Number from 0 to 11",
+			  "nl": "Waarde van 0 tot 11"	  
 		}
 	}] 
 }

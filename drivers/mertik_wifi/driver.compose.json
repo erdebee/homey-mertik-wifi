@@ -1,7 +1,7 @@
 {
     "capabilities": [
         "measure_temperature",
-        "onoff",
+        "operation_mode",
         "dim",
         "dual_flame",
         "flame_height"             

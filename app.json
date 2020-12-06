@@ -81,14 +81,56 @@
             "type": "number",
             "name": "flame_height",
             "min": 0,
-            "max": 12,
+            "max": 11,
             "step": 1,
             "placeholder": {
-              "en": "Voer waarde in (0=standby)"
+              "en": "Number from 0 to 11",
+              "nl": "Waarde van 0 tot 11"
             }
           }
         ],
         "id": "flame_height_changed"
+      },
+      {
+        "title": {
+          "en": "Operation mode has changed",
+          "nl": "Haard modus is veranderd"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "name": "operation_mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "stand_by",
+                "title": {
+                  "en": "Standby",
+                  "nl": "Standby"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "operation_mode_changed"
       }
     ],
     "conditions": [
@@ -121,14 +163,56 @@
             "type": "number",
             "name": "flame_height",
             "min": 0,
-            "max": 12,
+            "max": 11,
             "step": 1,
             "placeholder": {
-              "en": "Voer waarde in (0=standby)"
+              "en": "Number from 0 to 11",
+              "nl": "Waarde van 0 tot 11"
             }
           }
         ],
         "id": "flame_height_is"
+      },
+      {
+        "title": {
+          "en": "Operation mode is",
+          "nl": "Haard modus is"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "name": "operation_mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "stand_by",
+                "title": {
+                  "en": "Standby",
+                  "nl": "Standby"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "operation_mode_is"
       }
     ],
     "actions": [
@@ -189,14 +273,56 @@
             "type": "number",
             "name": "flame_height",
             "min": 0,
-            "max": 12,
+            "max": 11,
             "step": 1,
             "placeholder": {
-              "en": "Voer waarde in (0=standby)"
+              "en": "Number from 0 to 11",
+              "nl": "Waarde van 0 tot 11"
             }
           }
         ],
         "id": "flame_height_set"
+      },
+      {
+        "title": {
+          "en": "Set operation mode to",
+          "nl": "Stel haardmodus in op"
+        },
+        "args": [
+          {
+            "name": "my_device",
+            "type": "device",
+            "filter": "driver_id=mertik_wifi"
+          },
+          {
+            "name": "operation_mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan"
+                }
+              },
+              {
+                "id": "stand_by",
+                "title": {
+                  "en": "Standby",
+                  "nl": "Standby"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "operation_mode_set"
       }
     ]
   },
@@ -204,7 +330,7 @@
     {
       "capabilities": [
         "measure_temperature",
-        "onoff",
+        "operation_mode",
         "dim",
         "dual_flame",
         "flame_height"
@@ -262,6 +388,43 @@
       "getable": true,
       "setable": true,
       "uiComponent": "slider"
+    },
+    "operation_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Operation mode",
+        "nl": "Haard modus"
+      },
+      "desc": {
+        "en": "Mode of the fireplace",
+        "nl": "Modus van de haard"
+      },
+      "values": [
+        {
+          "id": "on",
+          "title": {
+            "en": "On",
+            "nl": "Aan"
+          }
+        },
+        {
+          "id": "stand_by",
+          "title": {
+            "en": "Standby",
+            "nl": "Standby"
+          }
+        },
+        {
+          "id": "off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker"
     }
   }
 }
