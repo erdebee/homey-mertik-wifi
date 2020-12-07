@@ -81,9 +81,7 @@ class MertikWifiDriver extends Homey.Driver {
      this.triggerDualFlameOff = 	new Homey.FlowCardTriggerDevice('dual_flame_off').register();
      this.triggerDualFlameToggle = 	new Homey.FlowCardTriggerDevice('dual_flame_toggled').register();        
      this.triggerFlameHeightChanged = 	new Homey.FlowCardTriggerDevice('flame_height_changed').register();        
-     this.triggerOperationModeChanged = 	new Homey.FlowCardTriggerDevice('operation_mode_changed').register();        
-
-
+     this.triggerOperationModeChanged = 	new Homey.FlowCardTriggerDevice('operation_mode_changed').register();
   	
     //-------------------------------------------------
     //-------------- CONDITIONS -----------------------    

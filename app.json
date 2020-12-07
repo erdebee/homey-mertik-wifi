@@ -114,6 +114,13 @@
                 }
               },
               {
+                "id": "eco",
+                "title": {
+                  "en": "Eco",
+                  "nl": "Eco"
+                }
+              },
+              {
                 "id": "stand_by",
                 "title": {
                   "en": "Standby",
@@ -193,6 +200,13 @@
                 "title": {
                   "en": "On",
                   "nl": "Aan"
+                }
+              },
+              {
+                "id": "eco",
+                "title": {
+                  "en": "Eco",
+                  "nl": "Eco"
                 }
               },
               {
@@ -306,6 +320,13 @@
                 }
               },
               {
+                "id": "eco",
+                "title": {
+                  "en": "Eco",
+                  "nl": "Eco"
+                }
+              },
+              {
                 "id": "stand_by",
                 "title": {
                   "en": "Standby",
@@ -405,6 +426,13 @@
           "title": {
             "en": "On",
             "nl": "Aan"
+          }
+        },
+        {
+          "id": "eco",
+          "title": {
+            "en": "Eco",
+            "nl": "Eco"
           }
         },
         {

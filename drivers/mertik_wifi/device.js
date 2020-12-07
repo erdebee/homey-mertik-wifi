@@ -3,7 +3,7 @@
 const Homey = require('homey');
 const net = require('net');
 
-const prefix = '02333033303330333038303'
+const prefix = '0233303330333033303830'
 
 function hex2bin(hex){
     return (parseInt(hex, 16).toString(2)).padStart(8, '0');
@@ -14,7 +14,8 @@ function fromBitStatus(hex,index) {
 }
 
 class MertikWifi extends Homey.Device {
-
+  offToEco = false;
+  
   /**
    * onInit is called when the device is initialized.
    */
@@ -86,70 +87,72 @@ class MertikWifi extends Homey.Device {
   }
   
   refreshStatus() {
-  	var msg = "03303";
+  	var msg = "303303";
   	
   	return this.sendCommand(msg);
   }
   
   setOperationMode(value) {
     let curState = this.getCapabilityValue('operation_mode');    
-   
-   //  this.getDriver()
-// 		.triggerOperationModeChanged
-// 		.trigger(this, {}, {
-// 			"operation_mode": operation_mode, 
-// 			"uid": device.getData().uid
-// 		})
-// 		.catch( this.error )
-// 		.then( this.log );
-   
+    this.offToEco = false;
+    
     if (value == "on" && curState == "stand_by") {
       console.log("standby to on");
       return this.setFlameHeight(11);
+    }else if (value == "eco" && curState == "off") {
+      console.log("off to eco");
+      this.offToEco = true;
+      return this.igniteFireplace();
     }else if (value == "on" && curState == "off") {
       console.log("off to on");
       return this.igniteFireplace();
-    }else if (value == "on") {
-      console.log("?? to on - doing nothing");    
-      return;        
+    }else if (value == "on" && curState == "eco") {
+	  console.log("eco to on"); 
+	  return this.setManual();   
+    }else if (value == "eco" && (curState == "on" || curState == "stand_by")) {
+	  console.log("to eco"); 
+	  return this.setEco();   	     
     }else if (value == "stand_by"){
-      console.log("to standby");        
-      return this.standBy();    
+      if (curState == "eco") {
+        console.log("eco to standby");        
+		return this.setManual();
+      }
+	  console.log("to standby");        
+	  return this.standBy();
     }else{
-      console.log("to off");            
+      console.log("to off cs = " + curState + " v " + value);            
       return this.guardFlameOff();
     }
     
   }
 
   standBy() {
-    var msg = "136303003"
-    
+    var msg = "3136303003"
     return this.sendCommand(msg);
   }
   
   auxOn() {    
     this.getDriver().triggerDualFlameToggle.trigger(this, {}, {});
 	this.getDriver().triggerDualFlameOn.trigger(this, {}, {});
-    var msg = "2303031030a";
+    var msg = "32303031030a";
 	return this.sendCommand(msg);
   }
 
   auxOff() {
     this.getDriver().triggerDualFlameToggle.trigger(this, {}, {});
 	this.getDriver().triggerDualFlameOff.trigger(this, {}, {});
-    var msg = "2303030030a";
+    var msg = "32303030030a";
     return this.sendCommand(msg);
   }
   
   igniteFireplace() {    
-    var msg = "14103";
+    var msg = "314103";
     
     return this.sendCommand(msg);
   }
   
   guardFlameOff() {    
-    var msg = "13003";
+    var msg = "313003";
     
     return this.sendCommand(msg);
   }
@@ -158,7 +161,18 @@ class MertikWifi extends Homey.Device {
     var l = 36 + Math.round(9 * dim_level);
     if (l >= 40) l++; // For some reason 40 should be skipped?...
     
-    var msg = "3304645" + l + l + "030a"
+    var msg = "33304645" + l + l + "030a"
+    
+    return this.sendCommand(msg);
+  }
+
+  setEco(){
+    let msg = "4233303103";
+    return this.sendCommand(msg);
+  }
+  
+  setManual(){
+    let msg = "423003";
     
     return this.sendCommand(msg);
   }
@@ -180,8 +194,9 @@ class MertikWifi extends Homey.Device {
       "4646"
     ];
     var l = steps[flame_height];
-    
-    var msg = "136" + l + "03";
+
+
+    var msg = "3136" + l + "03";
     
 	this.getDriver().triggerFlameHeightChanged
 		.trigger(this, {}, {
@@ -204,7 +219,8 @@ class MertikWifi extends Homey.Device {
   	}else{
 	  	flameHeight = Math.round(((flameHeight - 128) / 128) * 11)
   	}
-  	
+
+  	let mode = statusStr.substr(24,1);  	
   	let statusBits = statusStr.substr(16,4);
   	let shuttingDown = fromBitStatus(statusBits, 7);
   	let guardFlameOn = fromBitStatus(statusBits, 8);
@@ -238,7 +254,17 @@ class MertikWifi extends Homey.Device {
 	  }else{
 	  	opMode = "off";
 	  }
+	}else
+	if (mode == "2") {
+	  this.offToEco = false;
+	  opMode = "eco";
+	}else
+	if (this.offToEco) {
+	  this.setEco();
+	  opMode = "eco";
 	}
+	
+	console.log("Fire control mode: " + mode);
 	console.log("Operation mode: " + opMode)
 	this.setCapabilityValue("operation_mode", opMode);
 	this.setCapabilityValue("flame_height", flameHeight);
