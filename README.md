@@ -19,7 +19,7 @@ fireplaces, such as:
 - `Kalfire`
 - `Thermocet`
 
-To use this application, download these sourcefiles, install homey SDK and NodeJS then type the following commands;
+To use this application, download these sourcefiles, install homey SDK and NodeJS then type the following commands (ignore warnings);
 
 - `npm install`
 - `homey app install` 
