@@ -40,7 +40,7 @@ class MertikWifiDriver extends Homey.Driver {
 			"data": { 
 				"id": rinfo.address
 			},
-			"name": "Mertik WiFiBox",
+			"name": "Mertik WiFiBox - Autodiscovered",
 			"settings": {}
 		  };
 		}
@@ -125,6 +125,20 @@ class MertikWifiDriver extends Homey.Driver {
 			self.udpSock.send(reqSync,0,reqSync.length,30718,'255.255.255.255');
           }
         },1000);
+	});
+	
+	socket.on("add_manual", async function (data, callback) {
+		this.devices = self.devices;
+		console.log("MertikWifi app - add_manual data: " + JSON.stringify(data));
+		console.log("MertikWifi app - add_manual devices: " + JSON.stringify(self.devices));
+		  self.devices[self.devices.length] = {
+			"data": { 
+				"id": data.ip
+			},
+			"name": "Mertik WiFiBox - Manual",
+			"settings": {}
+		  };		
+		socket.emit("found", null);
 	});
 
 	// this method is run when Homey.emit('list_devices') is run on the front-end

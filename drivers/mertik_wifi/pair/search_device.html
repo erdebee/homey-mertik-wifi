@@ -26,9 +26,33 @@
 
     function startSearch() {
       console.log("StartSearch triggered");
-      // Continue to back-end, pass along data
-      Homey.emit('get_devices', {});
-      Homey.showLoadingOverlay();
+      // variables
+      var adEn = document.getElementById('autoDiscoveryY').checked;      
+      var inputIPAddress = document.getElementById('ipAddress').value;
+
+      if (adEn) {      
+      	// Autodiscovery
+      	Homey.emit('get_devices', {});
+      	Homey.showLoadingOverlay();
+      }else{
+        // Manually, pass along data
+      	Homey.emit('add_manual', { "ip" : inputIPAddress });
+      	Homey.showLoadingOverlay();
+      }
+    }
+    
+    function applyAutoDiscovery() {
+      console.log("t");
+      var adEn = document.getElementById('autoDiscoveryY').checked;
+      if (adEn) {
+            console.log("e");
+    	document.getElementById('ipAddress').disabled = true;
+   		document.getElementById('ipAddressTitle').style.color = "lightgray";
+      }else{
+            console.log("st");
+    	document.getElementById('ipAddress').disabled = false;      
+    	document.getElementById('ipAddressTitle').style.color = "black";
+      }
     }
 </script>
 
@@ -36,9 +60,27 @@
 Make sure that homey is connected to the same WiFi network as an already operational Mertik MyFire WiFi controller.</br>
 <br/>
 When you are ready, press start to begin searching.<br/>
-This might take up to 30 seconds..
+This might take up to 30 seconds..<br/>
+<br/>
+When searching doesn't work, you can enter the IP of the box.<br/>
+Make sure this IP is fixed in your router.
 </p>
 
-<fieldset>
-    <button class="button" data-i18n="pair.start.startSearching" onclick="startSearch()">Start searching</button>
-</fieldset>
+<table class="pairSettings">
+    <tr>
+      <td style="width:100px;" data-i18n="pair.start.method">Pair method:</td>
+      <td style="width:100px;">
+	      <input id="autoDiscoveryY" name="autoDiscovery" type="radio" onclick="applyAutoDiscovery()" value="y" checked="true"/> - Autodiscover<br/>
+	      <input id="autoDiscoveryN" name="autoDiscovery" type="radio" onclick="applyAutoDiscovery()" value="n"/> - Manual IP 
+      </td>
+    </tr>
+    <tr>
+        <td id="ipAddressTitle" style="width:100px; color: lightgray;" data-i18n="pair.start.ipAddress">IP</td>
+        <td><input id="ipAddress" type="text" disabled="true" pattern="^(([01]?\\d\\d?|2[0-4]\\d|25[0-5]).){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$" placeholder="192.168.1.10" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button class="button" data-i18n="pair.start.startSearching" onclick="startSearch()">Start searching</button>
+        </td>
+    </tr>
+</table>
