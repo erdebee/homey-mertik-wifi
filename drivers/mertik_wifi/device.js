@@ -274,7 +274,6 @@ class MertikWifi extends Homey.Device {
   }
 
   sendCommand(msg) {
-    let thiz = this;
     var packet = Buffer.from(prefix + msg, 'hex');
     console.log("Sending data: " + prefix + msg);
     var ip = this.getData().id;
@@ -284,18 +283,18 @@ class MertikWifi extends Homey.Device {
 		this.client = new net.Socket();
 		this.client.connect(2000, ip);
 		 // add handler for any response or other data coming from the device
-		this.client.on('data', function(data) {
+		this.client.on('data', (data) => {
 			let tempData = data.toString().substr(1).replace(/\r/g, ";");
 
 			console.log("Got data: " + tempData);
 			if (tempData.startsWith("03030000000346")) {
-				thiz.processStatus(tempData);
+				this.processStatus(tempData);
 			}
 		});
-		this.client.on('error', function(err) {
+		this.client.on('error', (err) => {
 			console.log("IP socket error: " + err.message);
-			if (typeof(client.destroy) == 'function') {
-				client.destroy();
+			if (typeof(this.client.destroy) == 'function') {
+				this.client.destroy();
 			}
 		});
 	}
