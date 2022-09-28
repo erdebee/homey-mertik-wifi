@@ -1,7 +1,5 @@
 # Use at your own responsibility
 ## THIS IS NOT A OFFICIAL APP - POTENTIALLY DANGEROUS
-
-**!!It is a very stupid idea to automate your fireplace with uncertified software.!!**
 Any bug in your homey or bug inside this app could potentially burn your house down.
 I strongly recommend you do not use this application for anything other then educational purposes.
 
