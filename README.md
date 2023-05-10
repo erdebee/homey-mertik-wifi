@@ -7,7 +7,15 @@ _Author takes no responsibility in any damage caused by this application to pers
 
 # Mertik MyFire WifiBox V2 Controller - Homey app
 
-Only tested to work with the V2 controller, part no. "Mertik Wifi Box B6R-WME"
+Tested to work with the following wifi boxes: 
+
+| Part No.     	| Compatible? 	| Auto discovery?* 	|
+|--------------	|-------------	|------------------	|
+| B6R-WME      	| Yes         	| Yes              	|
+| B6R-W2BE-0   	| Yes         	| Yes              	|
+| B6R-WWN 	    | Yes         	| No / Not sure    	|
+
+* Your mileage may vary, if auto discovery is not working for you, figure out the IP (look in the WLAN client list on your Internet Router) and fill it in manually in the app.
 
 Adds support for Mertik MyFire connected fireplace's. 
 This controller is also rebranded/whitelabeled by many producers of 
