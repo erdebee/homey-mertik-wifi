@@ -15,7 +15,7 @@ Tested to work with the following wifi boxes:
 | B6R-W2BE-0   	| Yes         	| Yes              	|
 | B6R-WWN 	    | Yes         	| No / Not sure    	|
 
-* Your mileage may vary, if auto discovery is not working for you, figure out the IP (look in the WLAN client list on your Internet Router) and fill it in manually in the app.
+*Your mileage may vary, if auto discovery is not working for you, figure out the IP (look in the WLAN client list on your Internet Router) and fill it in manually in the app.
 
 Adds support for Mertik MyFire connected fireplace's. 
 This controller is also rebranded/whitelabeled by many producers of 
