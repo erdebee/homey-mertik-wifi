@@ -287,7 +287,7 @@ class MertikWifi extends Homey.Device {
 			let tempData = data.toString().substr(1).replace(/\r/g, ";");
 
 			console.log("Got data: " + tempData);
-			if (tempData.startsWith("03030000000346")) {
+			if (tempData.startsWith("0303000000034")) {
 				this.processStatus(tempData);
 			}
 		});
