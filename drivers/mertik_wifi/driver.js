@@ -51,23 +51,23 @@ class MertikWifiDriver extends Homey.Driver {
     //-----------------------------------------------
     //-------------- ACTIONS ------------------------
     
-	new Homey.FlowCardAction('operation_mode_set').register().registerRunListener((args, state) => {
+	this.homey.flow.getActionCard('operation_mode_set').registerRunListener((args, state) => {
 		return args.my_device.setOperationMode(args.operation_mode);
   	});  
   	
-  	new Homey.FlowCardAction('flame_height_set').register().registerRunListener((args, state) => {
+  	this.homey.flow.getActionCard('flame_height_set').registerRunListener((args, state) => {
 		return args.my_device.setFlameHeight(args.flame_height);
   	});   
   	
-	new Homey.FlowCardAction('dual_flame_on').register().registerRunListener((args, state) => {
+	this.homey.flow.getActionCard('dual_flame_on').registerRunListener((args, state) => {
 		return args.my_device.auxOn();
   	});
   	
-  	new Homey.FlowCardAction('dual_flame_off').register().registerRunListener((args, state) => {
+  	this.homey.flow.getActionCard('dual_flame_off').registerRunListener((args, state) => {
 		return args.my_device.auxOff();
   	});
 
-	new Homey.FlowCardAction('dual_flame_toggle').register().registerRunListener((args, state) => {
+	this.homey.flow.getActionCard('dual_flame_toggle').registerRunListener((args, state) => {
 		if (args.my_device.getCapabilityValue('dual_flame'))
 		  return args.my_device.auxOff();
 		else  
@@ -77,23 +77,23 @@ class MertikWifiDriver extends Homey.Driver {
     //-----------------------------------------------
     //-------------- TRIGGERS -----------------------
 
-     this.triggerDualFlameOn = 	 	new Homey.FlowCardTriggerDevice('dual_flame_on').register();
-     this.triggerDualFlameOff = 	new Homey.FlowCardTriggerDevice('dual_flame_off').register();
-     this.triggerDualFlameToggle = 	new Homey.FlowCardTriggerDevice('dual_flame_toggled').register();        
-     this.triggerFlameHeightChanged = 	new Homey.FlowCardTriggerDevice('flame_height_changed').register();        
-     this.triggerOperationModeChanged = 	new Homey.FlowCardTriggerDevice('operation_mode_changed').register();
+     this.triggerDualFlameOn = 	 	this.homey.flow.getDeviceTriggerCard('dual_flame_on');
+     this.triggerDualFlameOff = 	this.homey.flow.getDeviceTriggerCard('dual_flame_off');
+     this.triggerDualFlameToggle = 	this.homey.flow.getDeviceTriggerCard('dual_flame_toggled');        
+     this.triggerFlameHeightChanged = 	this.homey.flow.getDeviceTriggerCard('flame_height_changed');        
+     this.triggerOperationModeChanged = 	this.homey.flow.getDeviceTriggerCard('operation_mode_changed');
   	
     //-------------------------------------------------
     //-------------- CONDITIONS -----------------------    
-  	new Homey.FlowCardCondition('dual_flame_is').register().registerRunListener((args, state) => {
+  	this.homey.flow.getConditionCard('dual_flame_is').registerRunListener((args, state) => {
 	  return args.my_device.getCapabilityValue('dual_flame');
   	});
   	
-  	new Homey.FlowCardCondition('flame_height_is').register().registerRunListener((args, state) => {
+  	this.homey.flow.getConditionCard('flame_height_is').registerRunListener((args, state) => {
 	  return args.my_device.getCapabilityValue('flame_height');
   	});
   	
-  	new Homey.FlowCardCondition('operation_mode_is').register().registerRunListener((args, state) => {
+  	this.homey.flow.getConditionCard('operation_mode_is').registerRunListener((args, state) => {
 	  return args.my_device.getCapabilityValue('operation_mode');
   	});
   	
