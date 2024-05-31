@@ -98,6 +98,7 @@ class MertikWifi extends Homey.Device {
 
     if (value == "on" && curState == "stand_by") {
       console.log("standby to on");
+      this.setCapabilityValue("flame_height", 11);
       return this.setFlameHeight(11);
     } else if (value == "eco" && curState == "off") {
       console.log("off to eco");
