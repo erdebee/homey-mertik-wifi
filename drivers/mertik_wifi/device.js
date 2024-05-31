@@ -21,14 +21,21 @@ class MertikWifi extends Homey.Device {
    */
   async onInit() {
     this.log('Mertik Wifi device has been initialized');
+    const settings = this.getSettings();
     this.refreshStatus();
 
     setInterval((e) => e.refreshStatus(), 15000, this);
+
+    if (settings.has_second_flame) {
+      this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
+    }
+    if (settings.has_lights) {
+      this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
+    }
     this.registerCapabilityListener('operation_mode', this.onCapabilityOperationMode.bind(this));
-    this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
     this.registerCapabilityListener('flame_height', this.onCapabilityFlameHeight.bind(this));
-    this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
   }
+
 
   async onCapabilityOperationMode(value, opts) {
     await this.setOperationMode(value);
@@ -67,6 +74,22 @@ class MertikWifi extends Homey.Device {
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
     this.log('Mertik Wifi settings where changed');
+    this.log("Old settings: " + JSON.stringify(oldSettings))
+    this.log("New settings: " + JSON.stringify(newSettings))
+    if (newSettings.has_second_flame && !this.hasCapability("dual_flame")) {
+      this.addCapability("dual_flame");
+      this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
+      this.log("adding dual flame")
+    } else if (!newSettings.has_second_flame && this.hasCapability("dual_flame")){
+      this.removeCapability("dual_flame");
+      this.log("removing dual flame")
+    }
+      if (newSettings.has_lights && !this.hasCapability("dim")) {
+        this.addCapability("dim");
+        this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
+      } else if (!newSettings.has_lights && this.hasCapability("dim")){
+        this.removeCapability("dim");
+      }
 
   }
 
