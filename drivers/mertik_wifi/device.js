@@ -73,23 +73,20 @@ class MertikWifi extends Homey.Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    this.log('Mertik Wifi settings where changed');
-    this.log("Old settings: " + JSON.stringify(oldSettings))
-    this.log("New settings: " + JSON.stringify(newSettings))
     if (newSettings.has_second_flame && !this.hasCapability("dual_flame")) {
       this.addCapability("dual_flame");
       this.registerCapabilityListener('dual_flame', this.onCapabilityDualFlame.bind(this));
       this.log("adding dual flame")
-    } else if (!newSettings.has_second_flame && this.hasCapability("dual_flame")){
+    } else if (!newSettings.has_second_flame && this.hasCapability("dual_flame")) {
       this.removeCapability("dual_flame");
       this.log("removing dual flame")
     }
-      if (newSettings.has_lights && !this.hasCapability("dim")) {
-        this.addCapability("dim");
-        this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
-      } else if (!newSettings.has_lights && this.hasCapability("dim")){
-        this.removeCapability("dim");
-      }
+    if (newSettings.has_lights && !this.hasCapability("dim")) {
+      this.addCapability("dim");
+      this.registerCapabilityListener('dim', this.onCapabilityDim.bind(this));
+    } else if (!newSettings.has_lights && this.hasCapability("dim")) {
+      this.removeCapability("dim");
+    }
 
   }
 
@@ -121,7 +118,6 @@ class MertikWifi extends Homey.Device {
 
     if (value == "on" && curState == "stand_by") {
       console.log("standby to on");
-      this.setCapabilityValue("flame_height", 11);
       return this.setFlameHeight(11);
     } else if (value == "eco" && curState == "off") {
       console.log("off to eco");
@@ -291,8 +287,10 @@ class MertikWifi extends Homey.Device {
     console.log("Operation mode: " + opMode)
     this.setCapabilityValue("operation_mode", opMode);
     this.setCapabilityValue("flame_height", flameHeight);
-    this.setCapabilityValue("dual_flame", auxOn);
-    this.setCapabilityValue("dim", dimLevel);
+    if (this.hasCapability("dual_flame"))
+      this.setCapabilityValue("dual_flame", auxOn);
+    if (this.hasCapability("dim"))
+      this.setCapabilityValue("dim", dimLevel);
     this.setCapabilityValue("measure_temperature", ambientTemp);
   }
 
@@ -310,7 +308,8 @@ class MertikWifi extends Homey.Device {
         let tempData = data.toString().substr(1).replace(/\r/g, ";");
 
         console.log("Got data: " + tempData);
-        if (tempData.startsWith("0303000000034")) {
+        let process_status_prefixes = ["303030300003", "030300000003"]
+        if (process_status_prefixes.some((prefix) => tempData.startsWith(prefix))) {
           this.processStatus(tempData);
         }
       });
