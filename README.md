@@ -1,3 +1,6 @@
+This project is no longer maintained by me as I do not own a controllable mertik device anymore.
+Of course feel free to fork this repo and continue the work.
+
 # Use at your own responsibility
 ## THIS IS NOT A OFFICIAL APP - POTENTIALLY DANGEROUS
 Any bug in your homey or bug inside this app could potentially burn your house down.
