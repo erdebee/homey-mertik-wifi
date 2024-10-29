@@ -1,7 +1,5 @@
 'use strict';
 
-const net = require('net');
-
 const dgram = require('dgram');
 
 const Homey = require('homey');
@@ -100,25 +98,25 @@ class MertikWifiDriver extends Homey.Driver {
   };
 
   
-  async onPair(socket) {
+  async onPair(session) {
     var self = this;
     // this is called when the user presses save settings button in start.html
-	socket.on("get_devices", async function (data, callback) {
-		this.devices = self.devices;
+	session.setHandler("get_devices", async (data) => {
 		console.log("MertikWifi app - get_devices data: " + JSON.stringify(data));
 		console.log("MertikWifi app - get_devices devices: " + JSON.stringify(self.devices));
 		var cnt = 60;
-        var intv = setInterval(function(){
+        var intv = setInterval(async function(){
    		  console.log("MertikWifi app - get_devices devices: " + JSON.stringify(self.devices));
           cnt--;
           if (self.devices.length > 0) {
  			console.log("MertikWifi app - found device, listing devices.");
 	        clearInterval(intv);
- 			socket.emit("found", null);
+ 			//socket.emit("found", null);
+      		await session.showView('list_devices');
           }else
           if (cnt <= 0) {
             clearInterval(intv);
-            socket.emit("not_found", null);		
+            //socket.emit("not_found", null);		
  			console.log("MertikWifi app - response is not ok");
           }else{
             //Broadcast a sync request (to wich the WifiBox should reply)
@@ -127,10 +125,9 @@ class MertikWifiDriver extends Homey.Driver {
         },1000);
 	});
 	
-	socket.on("add_manual", async function (data, callback) {
+	session.setHandler("add_manual", async (data) => {
 		this.devices = self.devices;
 		console.log("MertikWifi app - add_manual data: " + JSON.stringify(data));
-		console.log("MertikWifi app - add_manual devices: " + JSON.stringify(self.devices));
 		  self.devices[self.devices.length] = {
 			"data": { 
 				"id": data.ip
@@ -138,17 +135,18 @@ class MertikWifiDriver extends Homey.Driver {
 			"name": "Mertik WiFiBox - Manual",
 			"settings": {}
 		  };		
-		socket.emit("found", null);
+		console.log("MertikWifi app - add_manual devices: " + JSON.stringify(self.devices));
+		await session.showView('list_devices');
 	});
 
 	// this method is run when Homey.emit('list_devices') is run on the front-end
 	// which happens when you use the template `list_devices`
 	// pairing: start.html -> get_devices -> list_devices -> add_devices
-	socket.on("list_devices", function (data, callback) {
+	session.setHandler("list_devices", async (data) => {
 		console.log("MertikWifi app - list_devices data: " + JSON.stringify(data));
 		console.log("MertikWifi app - list_devices devices: " + JSON.stringify(self.devices));
 
-		callback(null, this.devices);
+		return await this.onPairListDevices(session);
 	});
   };	
 	
@@ -157,7 +155,7 @@ class MertikWifiDriver extends Homey.Driver {
    * This should return an array with the data of devices that are available for pairing.
    */
   async onPairListDevices() {
-    return [];
+    return this.devices;
   }
 }
 

@@ -7,7 +7,7 @@
           {
             "name": "my_device",
             "type": "device",
-            "filter": "driver_id=mertik_wifi"
+            "filter": "driver_id=mertik_wifi&capabilities=dual_flame"
           }
         ]
 }

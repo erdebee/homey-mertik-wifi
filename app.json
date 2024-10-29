@@ -381,6 +381,32 @@
           "id": "add_devices",
           "template": "add_devices"
         }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Fireplace Features"
+          },
+          "children": [
+            {
+              "id": "has_second_flame",
+              "type": "checkbox",
+              "label": {
+                "en": "Second flame installed"
+              },
+              "value": true
+            },
+            {
+              "id": "has_lights",
+              "type": "checkbox",
+              "label": {
+                "en": "Lights installed"
+              },
+              "value": true
+            }
+          ]
+        }
       ]
     }
   ],
@@ -393,7 +419,7 @@
       },
       "getable": true,
       "setable": true,
-      "uiComponent": "toggle"
+      "uiComponent": "button"
     },
     "flame_height": {
       "type": "number",
